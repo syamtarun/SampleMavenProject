@@ -1,12 +1,12 @@
 pipeline {
    agent any
-   triggers{
-     upstream(upstreamProjects: 'SMP_DeclarativePipelineJob', threshold: hudson.model.Result.SUCCESS)
+   parameters{
+     gitParameter(name: 'BRANCH',branchFilter: 'origin/(.*)', defaultValue: 'master', type: 'PT_BRANCH' ) 
    }
    stages{
        stage('git clone'){
            steps{
-               git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'
+               git branch: "${params.Branch}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
            }        
        }
        stage('build the code'){
@@ -21,7 +21,7 @@ pipeline {
        }
        stage('publish the junit reports'){
            steps{
-            junit 'target/surefire-reports/*.xml'
+             'junit 'target/surefire-reports/*.xml'
            }
            
        }
