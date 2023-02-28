@@ -1,5 +1,5 @@
 pipeline {
-   agent { label 'Node-1' }
+   agent any
    stages{
        stage('git clone'){
            steps{
