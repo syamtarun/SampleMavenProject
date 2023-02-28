@@ -1,9 +1,12 @@
 pipeline {
    agent any
+   parameters{
+     gitParameter(name: 'BRANCH',branchFilter: 'origin/(.*)', defaultValue: 'master', type: 'PT_BRANCH' ) 
+   }
    stages{
        stage('git clone'){
            steps{
-               git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'  
+               git branch: "$BUILD_BRANCH", url: 'https://github.com/devops-surya/game-of-life.git'
            }        
        }
        stage('build the code'){
@@ -13,13 +16,18 @@ pipeline {
        }
        stage('archive the artifacts'){
            steps{
-              archive 'target/*.jar'
+              archiveArtifacts artifacts: 'gameoflife-web/target/*.war', followSymlinks: false
            }          
        }
        stage('publish the junit reports'){
            steps{
-              junit 'target/surefire-reports/*.xml'
+              junit 'gameoflife-web/target/surefire-reports/*.xml'
            }
+	   stage('triggering the another job named gol'){
+	       steps{
+		      build job: 'gol'
+		   }
+	   }
            
        }
 
