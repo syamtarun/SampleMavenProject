@@ -9,20 +9,5 @@ pipeline {
         git branch: "${params.BRANCH}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
       }
     }
-    stage('build the code'){
-      steps {
-         sh 'mvn package'
-      }
-    }
-    stage('Archive the artifacts'){
-        steps {
-            archive 'target/*.jar'
-        }
-    }
-    stage('Publish junit test results'){
-        steps {
-            'junit 'target/surefire-reports/*.xml'
-        }
-    }
   }
 }
