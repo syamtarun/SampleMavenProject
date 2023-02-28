@@ -6,7 +6,7 @@ pipeline {
    stages{
        stage('git clone'){
            steps{
-               git branch: "$BUILD_BRANCH", url: 'https://github.com/devops-surya/game-of-life.git'
+               git branch: "${params.Branch}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
            }        
        }
        stage('build the code'){
@@ -16,18 +16,13 @@ pipeline {
        }
        stage('archive the artifacts'){
            steps{
-              archiveArtifacts artifacts: 'gameoflife-web/target/*.war', followSymlinks: false
+              archive 'target/*.jar'
            }          
        }
        stage('publish the junit reports'){
            steps{
-              junit 'gameoflife-web/target/surefire-reports/*.xml'
+              junit 'junit 'target/surefire-reports/*.xml''
            }
-	   stage('triggering the another job named gol'){
-	       steps{
-		      build job: 'gol'
-		   }
-	   }
            
        }
 
