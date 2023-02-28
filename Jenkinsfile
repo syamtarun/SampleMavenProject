@@ -1,7 +1,7 @@
 pipeline {
    agent any
    triggers{
-     upstream(upstreamProjects: 'SMP_DeclarativePipelineJob', threshold: hudson.model.Result.SUCCESS)
+     upstream(upstreamProjects: 'SMP_PipelineJob', threshold: hudson.model.Result.SUCCESS)
    }
    stages{
        stage('git clone'){
