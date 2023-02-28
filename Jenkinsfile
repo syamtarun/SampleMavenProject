@@ -19,5 +19,10 @@ pipeline {
             archive 'target/*.jar'
         }
     }
+    stage('publish junit test reports') {
+        steps{
+            junit 'target/surefire-reports/*.xml'
+        }
+    }
   }
 }
