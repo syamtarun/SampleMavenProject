@@ -10,17 +10,17 @@ pipeline {
       }
     }
     stage('build the code'){
-      steps{
+      steps {
          sh 'mvn package'
       }
     }
     stage('Archive the artifacts'){
-        steps{
+        steps {
             archive 'target/*.jar'
         }
     }
     stage('Publish junit test results'){
-        steps{
+        steps {
             'junit 'target/surefire-reports/*.xml'
         }
     }
