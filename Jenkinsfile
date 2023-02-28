@@ -9,5 +9,10 @@ pipeline {
         git branch: "${params.BRANCH}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
       }
     }
+    stage('Build the code') {
+        steps{
+            sh 'mvn package'
+        }
+    }
   }
 }
