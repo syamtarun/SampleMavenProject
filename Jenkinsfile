@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage('Git clone') {
       steps {
-        git branch: "${params.BRANCH}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
+        git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'
       }
     }
     stage('Build the code') {
