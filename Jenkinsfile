@@ -1,7 +1,7 @@
 pipeline {
   agent any
   triggers {
-      pollSCM('* * * * * ')
+      upstream(upstreamProjects: 'SMP_PipelineJob', threshold: hudson.model.Result.SUCCESS)
   }
   stages {
     stage('Git clone') {
