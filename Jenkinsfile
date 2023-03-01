@@ -1,28 +1,29 @@
 pipeline {
-  agent any
-  triggers {
-      upstream(upstreamProjects: 'SMP_PipelineJob', threshold: hudson.model.Result.SUCCESS)
-  }
-  stages {
-    stage('Git clone') {
-      steps {
-        git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'
-      }
+    agent any
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
-    stage('Build the code') {
-        steps{
-            sh 'mvn package'
+    stages {
+        stage('Example') {
+            steps {
+                echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
+            }
         }
     }
-    stage('Archive the artifacts') {
-        steps{
-            archive 'target/*.jar'
-        }
-    }
-    stage('publish junit test reports') {
-        steps{
-            junit 'target/surefire-reports/*.xml'
-        }
-    }
-  }
 }
