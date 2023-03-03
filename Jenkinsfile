@@ -1,28 +1,26 @@
-pipeline {
-  agent any
-  parameters {
-    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
-  }
-  stages {
-    stage('Git clone') {
-      steps {
-        git branch: "${params.BRANCH}", url: 'https://github.com/devops-surya/SampleMavenProject.git'
-      }
-    }
-    stage('Build the code') {
+pipeline{
+    agent any
+    stages{
+       stage('GetCode'){
+            steps{
+                git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
         steps{
-            sh 'mvn package'
-        }
+        withSonarQubeEnv('sonarqube-8.9.2') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
     }
-    stage('Archive the artifacts') {
-        steps{
-            archive 'target/*.jar'
         }
-    }
-    stage('publish junit test reports') {
-        steps{
-            junit 'target/surefire-reports/*.xml'
         }
+       
     }
-  }
 }
