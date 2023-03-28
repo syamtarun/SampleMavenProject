@@ -26,9 +26,9 @@ pipeline {
            steps{
                rtServer (
                    id: 'JFROG-OSS',
-                   url: 'http://18.183.208.219:8082/artifactory',
+                   url: 'http://54.65.198.172/:8082/artifactory',
                    username: 'admin',
-                   password: 'Mvst@225',
+                   password: 'Jfrog@123',
                    bypassProxy: true,
                    timeout: 300
                )
