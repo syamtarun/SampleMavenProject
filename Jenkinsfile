@@ -1,7 +1,7 @@
 pipeline {
    agent any
    stages{
-       stage('git clone'){
+       stage('git clone'){  
            steps{
                git credentialsId: '627d81ae-5ed6-471b-afc8-90c69fadd554', url: 'https://github.com/devops-surya/SampleMavenProject.git'
            }        
