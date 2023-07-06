@@ -1,7 +1,7 @@
 pipeline {
    agent any
    triggers{
-      pollSCM('* * * * *')
+     upstream(upstreamProjects: 'SMP', threshold: hudson.model.Result.SUCCESS)
    }
    stages{
        stage('git clone'){
@@ -21,7 +21,7 @@ pipeline {
        }
        stage('publish the junit reports'){
            steps{
-              junit 'target/surefire-reports/*.xml'
+            junit 'target/surefire-reports/*.xml'
            }
            
        }
