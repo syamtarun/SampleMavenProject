@@ -1,0 +1,14 @@
+node ('tarrun'){
+    stage('git clone'){
+                  https://github.com/syamtarun/SampleMavenProject.git
+    }
+stage('build code'){
+             sh 'maven package'
+}
+stage('archive the articraft'){
+      
+}
+stage('test for junir'){
+  sh 'test for junit'
+}
+}
